@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do List</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+      }
+
+      .container {
+        margin: 10rem auto 0;
+        width: 100%;
+        max-width: 1000px;
+        min-width: 400px;
+      }
+
+      .title {
+        text-align: center;
+      }
+
+      form {
+        width: 500px;
+        margin: auto;
+        padding: 0 2rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-left: 0.2rem;
+        margin-bottom: 1rem;
+        font-weight: 200;
+      }
+
+      input {
+        margin-bottom: 1rem;
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: 5px;
+      }
+
+      .submit {
+        height: 2rem;
+        color: white;
+        background-color: rgb(58, 58, 229);
+        border: 1px solid black;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .submit:hover {
+        background-color: rgb(34, 34, 237);
+      }
+
+      .cards {
+        width: 100%;
+        margin-top: 5rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 25px;
+      }
+
+      .card {
+        padding: 1rem;
+        width: 100%;
+        max-width: 400px;
+        border-radius: 5px;
+        box-shadow: 1px 1px 5px black;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header .edit {
+        width: 4rem;
+        padding: 10px;
+        background-color: cyan;
+        border: 1px solid black;
+        border-radius: 10px;
+      }
+
+      .header .hapus {
+        width: 4rem;
+        padding: 10px;
+        background-color: red;
+        border: 1px solid black;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form action="">
+        <h1 class="title">To-Do-List</h1>
+        <label for="nama">Nama :</label>
+        <input type="text" name="nama" id="nama" placeholder="Nama" />
+        <label for="catatan">Catatan : </label>
+        <input type="text" name="catatan" id="catatan" placeholder="Pesan" />
+        <button type="submit" class="submit">Tambahkan</button>
+      </form>
+      <div class="cards"></div>
+    </div>
+    <script>
+      const parentCard = document.querySelector(".cards");
+      const submit = document.querySelector(".submit");
+      const namaEl = document.querySelector("#nama");
+      const catatanEl = document.querySelector("#catatan");
+      const card = document.createElement("div");
+      card.classList.add("card");
+      let cardEdit = null;
+
+      const storage = {
+        ambil() {
+          return JSON.parse(localStorage.getItem("todolist") ?? "[]");
+        },
+        simpan(data) {
+          localStorage.setItem("todolist", JSON.stringify(data));
+        },
+        hapus(id) {
+          let data = this.ambil().filter((item) => item.id !== id);
+          this.simpan(data);
+        },
+      };
+
+      window.addEventListener("load", () => {
+        let dataLama = storage.ambil();
+        buatUI(dataLama); // Render semua data yang sudah ada
+      });
+
+      submit.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        if (namaEl.value == "" || catatanEl.value == "") {
+          alert("Data tidak boleh kosong");
+          return;
+        }
+
+        if (cardEdit) {
+          cardEdit.querySelector(".titleToDoList").textContent = namaEl.value;
+          cardEdit.querySelector(".catatanEl").textContent = catatanEl.value;
+
+          let idCard = Number(cardEdit.dataset.id);
+          let data = storage.ambil();
+
+          let dataBaru = data.map((item) => {
+            if (item.id === idCard) {
+              return {
+                ...item,
+                nama: namaEl.value,
+                catatan: catatanEl.value,
+              };
+            }
+            return item;
+          });
+
+          storage.simpan(dataBaru);
+
+          cardEdit = null;
+        } else {
+          let dataLama = storage.ambil();
+          const dataTerbaru = simpanLocalStorage(dataLama);
+
+          // Render ulang seluruh UI, jangan cuma buat card baru
+          parentCard.innerHTML = "";
+          buatUI(dataTerbaru);
+        }
+
+        namaEl.value = "";
+        catatanEl.value = "";
+      });
+
+      document.addEventListener("click", function (e) {
+        const card = e.target.closest(".card");
+
+        if (e.target.classList.contains("edit")) {
+          cardEdit = card;
+          namaEl.value = cardEdit.querySelector(".titleToDoList").textContent;
+          catatanEl.value = cardEdit.querySelector(".catatanEl").textContent;
+        }
+
+        if (e.target.classList.contains("hapus")) {
+          let idHapus = Number(card.dataset.id);
+          let data = storage.ambil();
+          let filterData = data.filter((d) => d.id !== idHapus);
+          storage.simpan(filterData);
+
+          // Render ulang UI, jangan cuma remove satu card saja
+          parentCard.innerHTML = "";
+          buatUI(filterData);
+        }
+      });
+
+      const buatUI = (dataLama) => {
+        const cardsHTML = dataLama
+          .map(
+            (data) => `
+      <div class="card" data-id="${data.id}">
+        <div class="header">
+          <h3 class="titleToDoList">${data.nama}</h3>
+          <div class="menu">
+            <button class="edit">Edit</button>
+            <button class="hapus">Hapus</button>
+          </div>
+        </div>
+        <hr />
+        <p class="catatanEl">${data.catatan}</p>
+      </div>
+    `
+          )
+          .join("");
+
+        parentCard.insertAdjacentHTML("beforeend", cardsHTML);
+      };
+
+      const buatCard = (data) => {
+        parentCard.insertAdjacentHTML(
+          "beforeend",
+          `<div class="card">
+            <div class="header">
+              <h3 class="titleToDoList">${data.nama}</h3>
+            <div class="menu">
+              <button class="edit">Edit</button>
+              <button class="hapus" data-id=${data.id}>Hapus</button>
+            </div>
+            </div>
+            <hr />
+            <p class = "catatanEl">${data.catatan}</p>
+          </div>`
+        );
+      };
+
+      const simpanLocalStorage = (dataLama) => {
+        if (dataLama === null) {
+          dataLama = [];
+        }
+
+        // buat databaru dari inputan
+        let dataBaru = { id: Date.now(), nama: namaEl.value, catatan: catatanEl.value };
+
+        // gabungkan data lama dengan data baru
+        dataLama.push(dataBaru);
+
+        // simpan dataLama yg telah digabung dengan databaru
+        localStorage.setItem("todolist", JSON.stringify(dataLama));
+
+        // kembalikan data lama
+        return dataLama;
+      };
+    </script>
+  </body>
+</html>
