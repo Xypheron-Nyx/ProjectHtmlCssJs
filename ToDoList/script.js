@@ -29,12 +29,13 @@ submit.addEventListener("click", function (e) {
   }
 
   if (cardEdit) {
+    // update ui nya
     cardEdit.querySelector(".titleToDoList").textContent = namaEl.value;
     cardEdit.querySelector(".catatanEl").textContent = catatanEl.value;
 
+    // update di localStorage
     let idCard = Number(cardEdit.dataset.id);
     let data = storage.ambil();
-
     let dataBaru = data.map((item) => {
       if (item.id === idCard) {
         return {
@@ -45,7 +46,11 @@ submit.addEventListener("click", function (e) {
       }
       return item;
     });
+
+    // kembalikan nilai yg telah di update lewat map
     storage.simpan(dataBaru);
+
+    // kosongkan si cardEdit
     cardEdit = null;
   } else {
     let dataLama = storage.ambil();
