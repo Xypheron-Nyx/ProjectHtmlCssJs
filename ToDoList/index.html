@@ -17,6 +17,10 @@
         font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
       }
 
+      .toggle {
+        margin: 1rem;
+      }
+
       .container {
         margin: 10rem auto 0;
         width: 100%;
@@ -50,6 +54,7 @@
       }
 
       .submit {
+        margin-bottom: 2rem;
         height: 2rem;
         color: white;
         background-color: rgb(58, 58, 229);
@@ -100,15 +105,46 @@
         border: 1px solid black;
         border-radius: 10px;
       }
+
+      body.dark {
+        background-color: #121212;
+        color: white;
+      }
+
+      body.dark .form {
+        border: 1px solid white;
+        border-radius: 5px;
+      }
+
+      body.dark .label,
+      body.dark .title {
+        color: white;
+      }
+
+      body.dark .card {
+        background-color: #1e1e1e;
+        color: white;
+      }
+
+      body.dark .edit {
+        background-color: #00d0ff;
+        color: black;
+      }
+
+      body.dark .hapus {
+        background-color: #ff4d4d;
+        color: white;
+      }
     </style>
   </head>
   <body>
+    <button class="toggle">Dark Mode</button>
     <div class="container">
-      <form action="">
+      <form action="" class="form">
         <h1 class="title">To-Do-List</h1>
-        <label for="nama">Nama :</label>
+        <label for="nama" class="label">Nama :</label>
         <input type="text" name="nama" id="nama" placeholder="Nama" />
-        <label for="catatan">Catatan : </label>
+        <label for="catatan" class="label">Catatan : </label>
         <input type="text" name="catatan" id="catatan" placeholder="Pesan" />
         <button type="submit" class="submit">Tambahkan</button>
       </form>

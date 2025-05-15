@@ -1,8 +1,14 @@
+const toggle = document.querySelector(".toggle");
+const form = document.querySelector(".form");
+const title = document.querySelector(".title");
+const label = document.querySelectorAll(".label");
 const parentCard = document.querySelector(".cards");
 const submit = document.querySelector(".submit");
 const namaEl = document.querySelector("#nama");
 const catatanEl = document.querySelector("#catatan");
 const card = document.createElement("div");
+const nama = document.querySelector(".namaEl");
+const catatan = document.querySelector(".catatanEl");
 card.classList.add("card");
 let cardEdit = null;
 
@@ -14,6 +20,11 @@ const storage = {
     localStorage.setItem("todolist", JSON.stringify(data));
   },
 };
+
+toggle.addEventListener("click", function () {
+  document.body.classList.toggle("dark");
+  toggle.textContent = document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
+});
 
 window.addEventListener("load", () => {
   let dataLama = storage.ambil();

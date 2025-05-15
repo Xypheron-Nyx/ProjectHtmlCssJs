@@ -10,7 +10,6 @@ Ini adalah kumpulan proyek web yang dibangun menggunakan **HTML, CSS, dan JavaSc
 
 - Tambah, edit, hapus tugas
 - Simpan data di localStorage
-- Filter berdasarkan status (semua / selesai / belum)
 - Dark mode toggle
 
 ### ✅ 2. Calculator with History
