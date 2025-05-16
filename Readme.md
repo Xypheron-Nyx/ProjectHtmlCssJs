@@ -12,10 +12,9 @@ Ini adalah kumpulan proyek web yang dibangun menggunakan **HTML, CSS, dan JavaSc
 - Simpan data di localStorage
 - Dark mode toggle
 
-### ✅ 2. Calculator with History
+### ✅ 2. Calculator
 
 - Operasi dasar matematika
-- Riwayat perhitungan disimpan dengan localStorage
 - Input via keyboard & klik
 
 ### ✅ 3. Image Slider / Carousel

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .calculator {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        width: 320px;
+      }
+
+      .display {
+        width: 100%;
+        height: 60px;
+        background: #222;
+        color: #fff;
+        font-size: 2rem;
+        text-align: right;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .buttons button {
+        padding: 20px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 10px;
+        background: #eee;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .buttons button:hover {
+        background: #ddd;
+      }
+
+      .buttons .operator {
+        background: #f9a825;
+        color: white;
+      }
+
+      .buttons .operator:hover {
+        background: #f57f17;
+      }
+
+      .buttons .equal {
+        background: #43a047;
+        color: white;
+      }
+
+      .buttons .equal:hover {
+        background: #2e7d32;
+      }
+
+      .buttons .delete {
+        background: #e53935;
+        color: white;
+      }
+
+      .buttons .delete:hover {
+        background: #c62828;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <div class="display" id="display">0</div>
+      <div class="buttons">
+        <button class="number">7</button>
+        <button class="number">8</button>
+        <button class="number">9</button>
+        <button class="operator">/</button>
+
+        <button class="number">4</button>
+        <button class="number">5</button>
+        <button class="number">6</button>
+        <button class="operator">*</button>
+
+        <button class="number">1</button>
+        <button class="number">2</button>
+        <button class="number">3</button>
+        <button class="operator">-</button>
+
+        <button class="number">0</button>
+        <button class="C">C</button>
+        <button class="operator">+</button>
+
+        <button class="equal">=</button>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
